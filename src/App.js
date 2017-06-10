@@ -153,7 +153,8 @@ class App extends Component {
       fromNode: '',
       showOutput: false,
       selectedNode: '',
-      showColorPane: false
+      showColorPane: false,
+      textValue: ''
     }
   }
   reset = (e) => {
@@ -210,12 +211,21 @@ class App extends Component {
     });
     this.setState({ nodes: recolored });
   }
+  updateText = (e) => {
+    const textValue = e.target.value;
+    const regex = /require\('([a-z0-9]+)'\)/g;
+    const textOutput = regex.exec(textValue)
+    console.log("textOutput", textOutput);
+    this.setState({
+      textValue
+    });
+  }
   render() {
-    const { fromNode, edges, nodes, showColorPane, showOutput } = this.state;
+    const { fromNode, edges, nodes, showColorPane, showOutput, textValue, textOutput } = this.state;
     
     const usedColors = nodes.map(node => node.bg !== '#f8f8ff' ? node.bg : false );
     const availableColors = color256.filter(el => !usedColors.includes(el.hex));
-    console.log("usedColors", usedColors.length, color256.length, availableColors.length);
+    // console.log("usedColors", usedColors.length, color256.length, availableColors.length);
     return (
       <div className="App">
         { showColorPane &&
@@ -223,6 +233,8 @@ class App extends Component {
             <CompactPicker onChange={ this.updateColor } colors={availableColors.map(co => co.hex)} style={{width: '100%'}}/>
           </ColorPane>
         }
+        <textarea value={ textValue } onChange={ this.updateText } />
+        <div>{ textOutput }</div>
         <EmotionTable>
           <tbody>
             {
