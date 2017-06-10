@@ -191,5 +191,5 @@ app.get('/', mainPage);
 app.get('/:id', mainPage);
 
 app.listen(port, () => {
-  console.console.log('api running on port', port);
+  console.log('api running on port', port);
 });

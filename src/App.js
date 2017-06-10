@@ -220,6 +220,18 @@ class App extends Component {
       textValue
     });
   }
+  postUpdate = () => {
+    const { nodes, edges } = this.state;
+    fetch("/api/new",
+    {
+      method: "POST",
+      body: {
+        nodes, edges
+      }
+    })
+    .then(function(res){ return res.json(); })
+    .then(function(data){ console.log( JSON.stringify( data ) ) })
+  }
   render() {
     const { fromNode, edges, nodes, showColorPane, showOutput, textValue, textOutput } = this.state;
     
@@ -290,6 +302,7 @@ class App extends Component {
               <td colSpan={4}>
                 <Btn value="edges" onClick={this.reset}>Clear Edges</Btn>
                 <Btn value="nodes" onClick={this.reset}>Clear Nodes</Btn>
+                <Btn onClick={this.postUpdate}>Update</Btn>
                 <Btn onClick={this.randomize}>randomize colors</Btn>
               </td>
             </tr>
